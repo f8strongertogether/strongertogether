@@ -14,18 +14,6 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "StrongerTogether";
     }
+    
 
-<<<<<<< HEAD
-    @Override
-    protected ReactActivityDelegate createReactActivityDelegate() {
-    return new ReactActivityDelegate(this, getMainComponentName()) {
-        @Override
-        protected ReactRootView createRootView() {
-        return new RNGestureHandlerEnabledRootView(MainActivity.this);
-        }
-    };
-    }
-=======
-
->>>>>>> 58cbb3f85c442a12d8c61c6e57b229881f48896f
 }

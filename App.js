@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import Survey from './components/Survey'
-=======
-import  from "react-native";
 import RootStack from "./components/Navigation";
 import SmsRetriever from "react-native-sms-retriever";
 import smsHelper from './SmsHelper'
