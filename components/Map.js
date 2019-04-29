@@ -1,11 +1,11 @@
 // @flow
 
-import React from "react";
+import React, { Component } from "react";
 import {
   View,
   StyleSheet
 } from "react-native";
-import MapView, { PROVIDER_DEFAULT } from "react-native-maps";
+import MapView, { PROVIDER_DEFAULT, Marker } from "react-native-maps";
 
 const region = {
   latitude: 37.78825,
@@ -14,18 +14,45 @@ const region = {
   longitudeDelta: 0.0421
 };
 
-const MapScreen = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <MapView
-        provider={PROVIDER_DEFAULT}
-        style={styles.map}
-        region={region}
-        onRegionChangeComplete={region => console.log( region )}
-      />
-    </View>
-  );
-};
+class MapScreen extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      markers: [{
+        latlng: {
+          latitude: 37.78825,
+          longitude: -122.4324
+        },
+        title: "Fake map point",
+        description: "speaks for itself"
+      }]
+    };
+  }
+
+  render() {
+    const { markers } = this.state;
+
+    return (
+      <View style={{ flex: 1 }}>
+        <MapView
+          provider={PROVIDER_DEFAULT}
+          style={styles.map}
+          region={region}
+          onRegionChangeComplete={region => console.log( region )}
+        >
+          {markers.map( marker => (
+            <Marker
+              coordinate={marker.latlng}
+              title={marker.title}
+              description={marker.description}
+            />
+          ))}
+        </MapView>
+      </View>
+    );
+  }
+}
 
 export default MapScreen;
 
