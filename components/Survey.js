@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-<<<<<<< Updated upstream
 import { Alert, AppRegistry, Text, Button, StyleSheet, View } from 'react-native';
 
 export default class ButtonBasics extends Component {
@@ -54,30 +53,23 @@ export default class ButtonBasics extends Component {
             title="Submit"
           />
         </View>
-        
-=======
-import { Text, View } from 'react-native';
-
-export default class HelloWorldApp extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Hello, world!</Text>
->>>>>>> Stashed changes
       </View>
     );
   }
 }
 
-<<<<<<< Updated upstream
 const styles = StyleSheet.create({
   
   container: {
    flex: 1,
    justifyContent: 'center',
+   backgroundColor: 'red',
+   alignItems: 'center',
+  
   },
   
   mainText: {
+    // For the top text ( Question)
     color: 'black',
     fontWeight: 'bold',
     fontSize: 30,
@@ -85,7 +77,7 @@ const styles = StyleSheet.create({
   },
   
   buttonContainer: {
-    margin: 20
+    margin: 1
   },
   alternativeLayoutButtonContainer: {
     margin: 30,
@@ -96,10 +88,3 @@ const styles = StyleSheet.create({
 
 // skip this line if using Create React Native App
 //AppRegistry.registerComponent('AwesomeProject', () => ButtonBasics);
-=======
-
-
-
-
-
->>>>>>> Stashed changes
