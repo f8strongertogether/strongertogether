@@ -5,9 +5,13 @@ import {
   View,
   StyleSheet,
   Platform,
-  PermissionsAndroid
+  PermissionsAndroid,
+  Text
 } from "react-native";
-import MapView, { PROVIDER_DEFAULT, Marker } from "react-native-maps";
+import MapView, { PROVIDER_DEFAULT, Marker, Callout } from "react-native-maps";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+const resources = <Icon name="food" size={24} color="#800080" />;
 
 class MapScreen extends Component {
   constructor() {
@@ -17,8 +21,8 @@ class MapScreen extends Component {
       region: {},
       markers: [{
         latlng: {
-          latitude: 37.78825,
-          longitude: -122.4324
+          latitude: 37.3230,
+          longitude: -122.0322
         },
         title: "Fake map point",
         description: "speaks for itself"
@@ -82,8 +86,13 @@ class MapScreen extends Component {
                 title={marker.title}
                 description={marker.description}
                 key={marker.title.toString()}
-              />
+              >
+                <Callout>
+                  <Text>{resources}</Text>
+                </Callout>
+              </Marker>
             ) )}
+
           </MapView>
         ) : null}
       </View>
