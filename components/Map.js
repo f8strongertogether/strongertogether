@@ -3,22 +3,18 @@
 import React, { Component } from "react";
 import {
   View,
-  StyleSheet
+  StyleSheet,
+  Platform,
+  PermissionsAndroid
 } from "react-native";
 import MapView, { PROVIDER_DEFAULT, Marker } from "react-native-maps";
-
-const region = {
-  latitude: 37.78825,
-  longitude: -122.4324,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421
-};
 
 class MapScreen extends Component {
   constructor() {
     super();
 
     this.state = {
+      region: {},
       markers: [{
         latlng: {
           latitude: 37.78825,
@@ -30,25 +26,65 @@ class MapScreen extends Component {
     };
   }
 
+  componentWillMount() {
+    if ( Platform.OS === "android" ) {
+      this.requestAndroidPermissions();
+    } else {
+      this.getUserLocation();
+    }
+  }
+
+  getUserLocation() {
+    navigator.geolocation.getCurrentPosition( ( { coords } ) => {
+      const { latitude, longitude } = coords;
+
+      this.setState( {
+        region: {
+          latitude,
+          longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }
+      } );
+    } );
+  }
+
+  requestAndroidPermissions = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      if ( granted === PermissionsAndroid.RESULTS.GRANTED ) {
+        this.getUserLocation();
+      } else {
+        this.setState( { error: "location" } );
+      }
+    } catch ( err ) {
+      this.setState( { error: "location" } );
+    }
+  }
+
   render() {
-    const { markers } = this.state;
+    const { markers, region } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
-        <MapView
-          provider={PROVIDER_DEFAULT}
-          style={styles.map}
-          region={region}
-          onRegionChangeComplete={region => console.log( region )}
-        >
-          {markers.map( marker => (
-            <Marker
-              coordinate={marker.latlng}
-              title={marker.title}
-              description={marker.description}
-            />
-          ))}
-        </MapView>
+        {region.latitude ? (
+          <MapView
+            provider={PROVIDER_DEFAULT}
+            style={styles.map}
+            region={region}
+            onRegionChangeComplete={region => console.log( region )}
+          >
+            {markers.map( marker => (
+              <Marker
+                coordinate={marker.latlng}
+                title={marker.title}
+                description={marker.description}
+              />
+            ) )}
+          </MapView>
+        ) : null}
       </View>
     );
   }
