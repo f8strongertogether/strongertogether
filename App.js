@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {
   StyleSheet
 } from "react-native";
-import Map from "./components/Map";
+import RootStack from "./components/Navigation";
 
 export default class App extends Component<Props> {
   render() {
     return (
-      <Map />
+      <RootStack />
     );
   }
 }
