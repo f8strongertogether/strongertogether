@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Alert, AppRegistry, Text, Button, StyleSheet, View } from 'react-native';
+import { Alert, AppRegistry, Text, Button, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 export default class ButtonBasics extends Component {
   _onPressButton() {
     Alert.alert('You tapped the button!')
   }
+
+  
   
   render() {
     return (
@@ -14,39 +16,58 @@ export default class ButtonBasics extends Component {
       <View>
         <Text style={styles.mainText}>What do you need?</Text>
       </View>
+
+      <View style={{marginBottom: 30}}></View>
       
-        
-        <View style={styles.alternativeLayoutButtonContainer}>
-          <Button
+      <View style={{justifyContent: 'center',
+      alignItems: 'center'}}>
+
+      <View style={{flexDirection: 'row', padding: 5}}>
+        <View style={{flex: 1, height: 50, margin: 5}}>
+        <Button
             onPress={this._onPressButton}
             title="Food"
-          />
-          <Button
+            color = 'red'
+          /></View>
+        <View style={{flex: 1, height: 50, margin: 5}} >
+        <Button
             onPress={this._onPressButton}
             title="Water"
-          />
+          /></View>         
+          
         </View>
-        <View style={styles.alternativeLayoutButtonContainer}>
-          <Button
+
+        <View style={{flexDirection: 'row', padding: 5}}>
+        <View style={{flex: 1, height: 50, margin: 5}}>
+        <Button
             onPress={this._onPressButton}
             title="Medical"
-          />
-          <Button
+            color = 'red'
+          /></View>
+        <View style={{flex: 1, height: 50, margin: 5}} >
+        <Button
             onPress={this._onPressButton}
             title="Evacuation"
-          />
-        </View>
-        <View style={styles.alternativeLayoutButtonContainer}>
-          <Button
-            onPress={this._onPressButton}
-            title="Clothing"
-          />
-          <Button
-            onPress={this._onPressButton}
-            title="Other"
-          />
+          /></View>         
+          
         </View>
         
+        <View style={{flexDirection: 'row', padding: 5}}>
+        <View style={{flex: 1, height: 50, margin: 5}}>
+        <Button
+            onPress={this._onPressButton}
+            title="Clothing"
+            color = 'red'
+          /></View>
+        <View style={{flex: 1, height: 50, margin: 5}} >
+        <Button
+            onPress={this._onPressButton}
+            title="Other"
+          /></View>         
+          
+        </View>
+        </View> 
+
         <View style={styles.buttonContainer}>
           <Button
             onPress={this._onPressButton}
@@ -62,10 +83,10 @@ const styles = StyleSheet.create({
   
   container: {
    flex: 1,
+   backgroundColor: 'grey',
    justifyContent: 'center',
    backgroundColor: 'red',
    alignItems: 'center',
-  
   },
   
   mainText: {
@@ -73,17 +94,14 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
     fontSize: 30,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   
   buttonContainer: {
     margin: 1
   },
-  alternativeLayoutButtonContainer: {
-    margin: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
+
 });
 
 // skip this line if using Create React Native App
