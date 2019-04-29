@@ -3,7 +3,6 @@ package com.strongertogether;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
-import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 public class MainActivity extends ReactActivity {
 
@@ -16,6 +15,7 @@ public class MainActivity extends ReactActivity {
         return "StrongerTogether";
     }
 
+<<<<<<< HEAD
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
     return new ReactActivityDelegate(this, getMainComponentName()) {
@@ -25,4 +25,7 @@ public class MainActivity extends ReactActivity {
         }
     };
     }
+=======
+
+>>>>>>> 58cbb3f85c442a12d8c61c6e57b229881f48896f
 }
