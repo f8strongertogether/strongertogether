@@ -5,7 +5,7 @@ import {
 } from "react-native";
 import RootStack from "./components/Navigation";
 import SmsRetriever from "react-native-sms-retriever";
-
+import smsHelper from './SmsHelper'
 
 export default class App extends Component<Props> {
 
@@ -29,13 +29,11 @@ export default class App extends Component<Props> {
       }
   }
 
-// Handlers
-  _onReceiveSms = (event) => {
-      alert(event.message
-          .replace('<#>', '')
-          .replace('Dt6yj3YDe6i', '')
-      );
-  };
+    // SMS Handlers
+    _onReceiveSms = (event) => {
+        let coordinate = smsHelper.parse(event.message);
+        alert(coordinate.latitude + " " + coordinate.longitude);
+    };
 
 }
 
