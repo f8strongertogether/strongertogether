@@ -105,6 +105,7 @@ android {
         applicationId "com.strongertogether"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        ndk { abiFilters "armeabi", "armeabi-v7a", "x86", "mips" }
         versionCode 1
         versionName "1.0"
     }
@@ -140,7 +141,11 @@ android {
 dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-gesture-handler')
+    compile project(':react-native-sms-retriever')
+    compile project(':react-native-gesture-handler')
     implementation project(':react-native-maps')
+    implementation 'com.google.android.gms:play-services-base:12.0.0'
+    implementation 'com.google.android.gms:play-services-maps:12.0.0'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
