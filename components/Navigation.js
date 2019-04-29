@@ -5,12 +5,12 @@ import {
 } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import FormIcon from "react-native-vector-icons/AntDesign";
+
 import MapScreen from "./Map";
 // import Post from "./Post";
 // import Survey from "./Survey";
 // import Volunteer from "./Volunteer";
-
-const resources = <Icon name="food" size={24} color="#F8F8F8" />;
 
 // const RootStack = createStackNavigator( {
 //   Map: {
@@ -34,6 +34,30 @@ const tabNav = createMaterialBottomTabNavigator( {
       tabBarIcon: ( { tintColor } ) => (
         <Icon
           name="food"
+          size={24}
+          color={tintColor}
+        />
+      )
+    } )
+  },
+  "Request Help": {
+    screen: MapScreen,
+    navigationOptions: () => ( {
+      tabBarIcon: ( { tintColor } ) => (
+        <FormIcon
+          name="form"
+          size={24}
+          color={tintColor}
+        />
+      )
+    } )
+  },
+  "See Posts": {
+    screen: MapScreen,
+    navigationOptions: () => ( {
+      tabBarIcon: ( { tintColor } ) => (
+        <Icon
+          name="message-text"
           size={24}
           color={tintColor}
         />
