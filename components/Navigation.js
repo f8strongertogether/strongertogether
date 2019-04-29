@@ -67,11 +67,9 @@ const tabNav = createMaterialBottomTabNavigator( {
 }, {
   tabBarOptions: {
     showLabel: false, // hide labels
-    activeTintColor: '#F8F8F8', // active icon color
-    inactiveTintColor: '#586589', // inactive icon color
-    style: {
-      backgroundColor: '#171F33' // TabBar background
-    }
+    activeTintColor: "#F8F8F8", // active icon color
+    inactiveTintColor: "#586589", // inactive icon color
+    tabBarColor: "#2f6690" // TabBar background
   }
 } );
 

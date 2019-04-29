@@ -11,7 +11,7 @@ import {
 import MapView, { PROVIDER_DEFAULT, Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const resources = <Icon name="food" size={24} color="#800080" />;
+const resources = <Icon name="home" size={24} color="#800080" />;
 
 class MapScreen extends Component {
   constructor() {
@@ -31,11 +31,41 @@ class MapScreen extends Component {
   }
 
   componentWillMount() {
+    this.fetchNewYorkHurricaneData();
     if ( Platform.OS === "android" ) {
       this.requestAndroidPermissions();
     } else {
       this.getUserLocation();
     }
+  }
+
+  fetchNewYorkHurricaneData() {
+    fetch( "https://data.cityofnewyork.us/resource/addd-ji6a.json" )
+      .then( response => response.json() )
+      .then( ( responseJson ) => {
+        const markers = [];
+        let count = 0;
+
+        responseJson.forEach( ( shelter ) => {
+          const { the_geom } = shelter;
+          const { coordinates } = the_geom;
+          markers.push( {
+            latlng: {
+              latitude: coordinates[1],
+              longitude: coordinates[0]
+            },
+            title: `Shelter-${count}`,
+            description: "Hurricane shelter"
+          } );
+          count += 1;
+        } );
+
+        this.setState( {
+          markers
+        } );
+
+        console.log( markers.length );
+      } ).catch( error => console.log( error ) ) // to catch the errors if any
   }
 
   getUserLocation() {
@@ -44,8 +74,8 @@ class MapScreen extends Component {
 
       this.setState( {
         region: {
-          latitude,
-          longitude,
+          latitude: 40.7128,
+          longitude: -74.0060,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }
@@ -71,6 +101,8 @@ class MapScreen extends Component {
   render() {
     const { markers, region } = this.state;
 
+    // console.log( markers, "markers" );
+
     return (
       <View style={{ flex: 1 }}>
         {region.latitude ? (
@@ -78,7 +110,7 @@ class MapScreen extends Component {
             provider={PROVIDER_DEFAULT}
             style={styles.map}
             region={region}
-            onRegionChangeComplete={region => console.log( region )}
+            // onRegionChangeComplete={region => console.log( region )}
           >
             {markers.map( marker => (
               <Marker
@@ -92,7 +124,6 @@ class MapScreen extends Component {
                 </Callout>
               </Marker>
             ) )}
-
           </MapView>
         ) : null}
       </View>
