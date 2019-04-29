@@ -81,6 +81,7 @@ class MapScreen extends Component {
                 coordinate={marker.latlng}
                 title={marker.title}
                 description={marker.description}
+                key={marker.title.toString()}
               />
             ) )}
           </MapView>
