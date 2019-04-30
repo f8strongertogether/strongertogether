@@ -3,6 +3,14 @@ import {StyleSheet, View, Text, TouchableOpacity, Button, FlatList, ScrollView} 
 
 type Props = {};
 
+// const POST_FILTERS = {
+//   'By_WATER': post => post.waterT,
+//   'By_FOOD' : post => post.clothingsT,
+//   'By_Evacuation' : post => post.evacuationT,
+//   'Medicine': post => post.medicineT,
+//   'Food': post => post.foodT,
+//   'Other': post => post.otherT
+// }
 var post_items = [
   {
     "_id": "5cc7a268b40c917a2e186f84",
@@ -94,10 +102,15 @@ export default class Post extends Component<Props> {
   constructor(){
     super()
     this.state = {
-      search: ''
+      dataSource: post_items,
+      filter: []
     };
   }
 
+  filterClick = (text) => {
+      this.state.filter.push(text);
+      refresh: !this.state.refresh
+  }
 
   renderItem = ({item}) => {
     return(
@@ -131,28 +144,29 @@ export default class Post extends Component<Props> {
   //   })
   // }
 
-  onPress(){
-    //const filtered = post_items.flatMap(post => post.needs).filter(item => !item.indexOf('wat'));
-    const filtered = post_items.filter(post => post.needs.filter(need => need.indexOf("wat").length !== 0));
-    alert(   JSON.stringify(filtered));
- 
-
+  filterList = (list) => {
+    var newData = post_items.filter(post => post.needs.filter(need => !need.indexOf("water")).length !== 0);
+    //alert(   JSON.stringify(filtered));
+    this.setState({
+      dataSource: newData,
+      refresh: !this.state.refresh
+    })
   }
-
+  
   render() {
     
     return (
       <ScrollView>  
-      {/*  <View> */}
           <View style={styles.container}>
             <TouchableOpacity
               style={styles.btn1}
-              onPress={this.onPress}>
+              onPress={() => {this.filterClick('water')}}>
               <Text style={styles.btn_text}>Water</Text>
             </TouchableOpacity>
             
             <TouchableOpacity
               style={styles.btn2}
+              onPress={() => {this.filterClick('clothings')}}
               // onPress={this.onPress}
             >
               <Text style={styles.btn_text}>Clothings</Text>
@@ -160,6 +174,7 @@ export default class Post extends Component<Props> {
 
             <TouchableOpacity
               style={styles.btn3}
+              onPress={() => {this.filterClick('evacuation')}}
               // onPress={this.onPress}
               >
               <Text style={styles.btn_text}>Evacuation</Text>
@@ -167,6 +182,7 @@ export default class Post extends Component<Props> {
             
             <TouchableOpacity
               style={styles.btn4}
+              onPress={() => {this.filterClick('medicine')}}
               // onPress={this.onPress}
               >
               <Text style={styles.btn_text}>Medicine</Text>
@@ -174,12 +190,14 @@ export default class Post extends Component<Props> {
             
             <TouchableOpacity
               style={styles.btn5}
+              onPress={() => {this.filterClick('food')}}
               // onPress={this.onPress}
               >
               <Text style={styles.btn_text}>Food</Text>
             </TouchableOpacity>
             
             <TouchableOpacity
+            onPress={() => {this.filterClick('other')}}
               style={styles.btn6}
               // onPress={this.onPress}
               >
@@ -189,6 +207,7 @@ export default class Post extends Component<Props> {
 
             <FlatList 
               data={post_items}
+              extraData={this.state.dataSource}
               renderItem={this.renderItem}
               keyExtractor={(item => item._id.toString())}
             />    
@@ -204,10 +223,11 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start',
       flexWrap: 'wrap',
       flexDirection: 'row', 
-      justifyContent: 'center',
+      justifyContent: 'space-evenly',
       paddingRight: 40,
       paddingLeft: 40,
-      padding: 30
+      padding: 30,
+      flex: 1
     },
     btn_text:{
       fontSize: 20,
@@ -217,31 +237,43 @@ const styles = StyleSheet.create({
     btn1:{
       alignItems: 'center',
       backgroundColor: '#B36499',
-      padding: 15
+      padding: 15,
+      width: 140,
+      height: 50
     },
     btn2:{
       alignItems: 'center',
       backgroundColor: '#FFE6A4',
-      padding: 15
+      padding: 15,
+      width: 140,
+      height: 50
     },
     btn3:{
       alignItems: 'center',
       backgroundColor: '#FFA8E3',
-      padding: 15
+      padding: 15,
+      width: 140,
+      height: 50
     },
     btn4:{
       alignItems: 'center',
       backgroundColor: '#72C9CC',
-      padding: 15
+      padding: 15,
+      width: 140,
+      height: 50
     },
     btn5:{
       alignItems: 'center',
       backgroundColor: '#6DB0B3',
-      padding: 15
+      padding: 15,
+      width: 140,
+      height: 50
     },
     btn6:{
       alignItems: 'center',
       backgroundColor: '#DDDDDD',
-      padding: 15
+      padding: 15,
+      width: 140,
+      height: 50
     },
 });
