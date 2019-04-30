@@ -7,19 +7,19 @@ import {
   Platform,
   PermissionsAndroid,
   ToastAndroid,
-  Text
+  Text,
+  TouchableOpacity
 } from "react-native";
 import MapView, { PROVIDER_DEFAULT, Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import LocationIcon from "react-native-vector-icons/MaterialIcons";
 import SmsRetriever from "react-native-sms-retriever";
 import smsHelper from "../SmsHelper";
-import VolunteerButton from "./Volunteer";
 
-const resources = <Icon name="home" size={24} color="#800080" />;
+const resources = <Icon name="home" size={24} color="red" />;
 const hospital = <Icon name="hospital-building" size={24} color="#800080" />;
 const location = <LocationIcon name="my-location" size={30} color="blue" />;
-
+const volunteer = <Icon name="human-greeting" size={24} color="green" />;
 
 class MapScreen extends Component {
   constructor() {
@@ -28,10 +28,9 @@ class MapScreen extends Component {
     this.state = {
       region: {},
       shelters: [],
-      emergencyServices: []
+      emergencyServices: [],
+      volunteers: []
     };
-
-    this.createVolunteer = this.createVolunteer.bind( this );
   }
 
   componentDidMount() {
@@ -110,19 +109,19 @@ class MapScreen extends Component {
     }
   }
 
-  createNewMarker( coordinate ) {
-    const { emergencyServices } = this.state;
+  createNewMarker() {
+    const { volunteers, region } = this.state;
 
-    emergencyServices.push( {
+    volunteers.push( {
       latlng: {
-        latitude: coordinate.latitude,
-        longitude: coordinate.longitude
+        latitude: region.latitude,
+        longitude: region.longitude
       },
-      title: "Shelter-Found",
-      description: "Hurricane shelter"
+      title: `Volunteer-${volunteers.length}`,
+      description: "Emergency volunteer"
     } );
 
-    this.setState( { emergencyServices } );
+    this.setState( { volunteers } );
   }
 
   fetchNewYorkHurricaneData() {
@@ -192,20 +191,16 @@ class MapScreen extends Component {
       } ).catch( error => console.log( error ) ); // to catch the errors if any
   }
 
-  createVolunteer() {
-    const { region } = this.state;
-    this.createNewMarker( {
-      latitude: region.latitude,
-      longitude: region.longitude
-    } );
-  }
-
   render() {
-    const { shelters, emergencyServices, region } = this.state;
+    const {
+      shelters,
+      emergencyServices,
+      volunteers,
+      region
+    } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
-        <VolunteerButton createVolunteer={this.createVolunteer} />
         {region.latitude ? (
           <MapView
             provider={PROVIDER_DEFAULT}
@@ -218,6 +213,7 @@ class MapScreen extends Component {
                 title={marker.title}
                 description={marker.description}
                 key={marker.title.toString()}
+                pinColor="blue"
               >
                 <Callout>
                   <Text>{resources}</Text>
@@ -230,9 +226,23 @@ class MapScreen extends Component {
                 title={marker.title}
                 description={marker.description}
                 key={marker.title.toString()}
+                pinColor="#800080"
               >
                 <Callout>
                   <Text>{hospital}</Text>
+                </Callout>
+              </Marker>
+            ) )}
+            {volunteers.map( marker => (
+              <Marker
+                coordinate={marker.latlng}
+                title={marker.title}
+                description={marker.description}
+                key={marker.title.toString()}
+                pinColor="green"
+              >
+                <Callout>
+                  <Text>{volunteer}</Text>
                 </Callout>
               </Marker>
             ) )}
@@ -241,6 +251,28 @@ class MapScreen extends Component {
         <View pointerEvents="none" style={styles.markerFixed}>
           {location}
         </View>
+        <TouchableOpacity
+          onPress={() => this.createNewMarker()}
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: "#841584",
+            height: 30
+          }}
+        >
+          <Text style={{
+            textAlign: "center",
+            paddingTop: 5,
+            color: "white",
+            fontWeight: "600"
+          }}
+          >
+          TAP TO VOLUNTEER
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
