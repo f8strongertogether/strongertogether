@@ -57,3 +57,4 @@ buck-out/
 *.jsbundle
 
 .env
+android/app/src/main/res/values/config.example.xml

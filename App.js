@@ -4,9 +4,9 @@ import {
   StyleSheet
 } from "react-native";
 import SmsRetriever from "react-native-sms-retriever";
-
 import RootStack from "./components/Navigation";
 import smsHelper from "./SmsHelper";
+import Location from "./components/Location";
 
 export default class App extends Component<Props> {
   async componentDidMount() {
