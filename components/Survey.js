@@ -115,7 +115,7 @@ export default class ButtonBasics extends Component {
         <Button
             onPress={this._handleOnPress}            
             title="Food"
-            color = {this.state.foodstatusPress ? 'red' : 'blue'}
+            color = {this.state.foodstatusPress ? 'purple' : 'blue'}
             
           /></View>
 
@@ -123,7 +123,7 @@ export default class ButtonBasics extends Component {
         <Button
             onPress={this._waterOnPress}
             title="Water"
-            color = {this.state.waterPress ? 'red' : 'blue'}
+            color = {this.state.waterPress ? 'purple' : 'blue'}
           /></View>          }
           
         </View>
@@ -133,13 +133,13 @@ export default class ButtonBasics extends Component {
         <Button
             onPress={this._medOnPress}
             title="Medical"
-            color = {this.state.medPress ? 'red' : 'blue'}
+            color = {this.state.medPress ? 'purple' : 'blue'}
           /></View>
         <View style={{flex: 1, height: 50, margin: 5}} >
         <Button
             onPress={this._evacOnPress}
             title="Evacuation"
-            color = {this.state.evacPress ? 'red' : 'blue'}
+            color = {this.state.evacPress ? 'purple' : 'blue'}
           /></View>         
           
         </View>
@@ -149,25 +149,25 @@ export default class ButtonBasics extends Component {
         <Button
             onPress={this._clothOnPress}
             title="Clothing"
-            color = {this.state.clothPress ? 'red' : 'blue'}
+            color = {this.state.clothPress ? 'purple' : 'blue'}
           /></View>
         <View style={{flex: 1, height: 50, margin: 5}} >
         <Button
             onPress={this._otherOnPress}
             title="Other"
-            color = {this.state.otherPress ? 'red' : 'blue'}
+            color = {this.state.otherPress ? 'purple' : 'blue'}
           /></View>         
           
         </View> 
         </View> 
 
 
-        {/* <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer}>
           <Button
-            onPress={this.handleOnPress(submitPress)}
-            title="Submit"
+            //onPress={this.handleOnPress(submitPress)}
+            title="Next"
           />
-        </View> */}
+        </View>
 
         
       </View>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   
   container: {
    flex: 1,
-   backgroundColor: 'grey',
+   backgroundColor: 'white',
    justifyContent: 'center',
    alignItems: 'center'
   },
