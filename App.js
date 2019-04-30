@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import {
-  Platform,
   StyleSheet
 } from "react-native";
 import RootStack from "./components/Navigation";
 
-export default class App extends Component<Props> {
+export default class App extends Component {
   render() {
     return (
       <RootStack />

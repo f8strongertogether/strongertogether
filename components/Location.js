@@ -19,7 +19,7 @@ export default class Location extends Component {
   onPress() {
     const { navigation } = this.props;
     Alert.alert( "Your request has been submitted." );
-    navigation.navigate( "See Posts" );
+    navigation.navigate( "Post" );
   }
 
   render() {
