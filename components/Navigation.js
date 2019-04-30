@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  // createStackNavigator,
+  createStackNavigator,
   createAppContainer
 } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
@@ -8,24 +8,18 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FormIcon from "react-native-vector-icons/AntDesign";
 
 import MapScreen from "./Map";
-// import Post from "./Post";
-// import Survey from "./Survey";
-// import Volunteer from "./Volunteer";
+import LocationScreen from "./Location";
+import PostScreen from "./Post";
+import SurveyScreen from "./Survey";
 
-// const RootStack = createStackNavigator( {
-//   Map: {
-//     screen: MapScreen
-//   }
-//   // Post: {
-//   //   screen: Post
-//   // },
-//   // Survey: {
-//   //   screen: Survey
-//   // },
-//   // Volunteer: {
-//   //   screen: Volunteer
-//   // }
-// } );
+const SurveyStack = createStackNavigator( {
+  Survey: {
+    screen: SurveyScreen
+  },
+  Location: {
+    screen: LocationScreen
+  }
+} );
 
 const tabNav = createMaterialBottomTabNavigator( {
   Resources: {
@@ -41,7 +35,7 @@ const tabNav = createMaterialBottomTabNavigator( {
     } )
   },
   "Request Help": {
-    screen: MapScreen,
+    screen: SurveyStack,
     navigationOptions: () => ( {
       tabBarIcon: ( { tintColor } ) => (
         <FormIcon
@@ -53,7 +47,7 @@ const tabNav = createMaterialBottomTabNavigator( {
     } )
   },
   "See Posts": {
-    screen: MapScreen,
+    screen: PostScreen,
     navigationOptions: () => ( {
       tabBarIcon: ( { tintColor } ) => (
         <Icon

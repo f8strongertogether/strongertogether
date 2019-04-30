@@ -5,10 +5,10 @@ export default class ButtonBasics extends Component {
   _onPressButton() {
     Alert.alert('You tapped the button!')
   }
-
-  
   
   render() {
+    const { navigation } = this.props;
+
     return (
     
       <View style={styles.container}>
@@ -70,7 +70,7 @@ export default class ButtonBasics extends Component {
 
         <View style={styles.buttonContainer}>
           <Button
-            onPress={this._onPressButton}
+            onPress={() => navigation.navigate( "Location" )}
             title="Submit"
           />
         </View>
