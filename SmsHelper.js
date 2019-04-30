@@ -23,7 +23,7 @@ const smsHelper = {
 
         const latlong = cleanContent.split('@');
 
-        return {latitude: latlong[0], longitude: latlong[1]}
+        return {latitude: parseFloat(latlong[0]), longitude: parseFloat(latlong[1])}
 
     }
 

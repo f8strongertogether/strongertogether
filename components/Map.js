@@ -6,15 +6,19 @@ import {
   StyleSheet,
   Platform,
   PermissionsAndroid,
+  ToastAndroid,
   Text
 } from "react-native";
 import MapView, { PROVIDER_DEFAULT, Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import LocationIcon from "react-native-vector-icons/MaterialIcons";
+import SmsRetriever from "react-native-sms-retriever";
+import smsHelper from "../SmsHelper";
 
 const resources = <Icon name="home" size={24} color="#800080" />;
 const hospital = <Icon name="hospital-building" size={24} color="#800080" />;
 const location = <LocationIcon name="my-location" size={30} color="blue" />;
+
 
 class MapScreen extends Component {
   constructor() {
@@ -30,6 +34,7 @@ class MapScreen extends Component {
   componentWillMount() {
     if ( Platform.OS === "android" ) {
       this.requestAndroidPermissions();
+      this.registerSmsListener();
     } else {
       this.getUserLocation();
     }
@@ -39,6 +44,42 @@ class MapScreen extends Component {
     this.fetchNewYorkHurricaneData();
 
   }
+
+  registerSmsListener = async () => {
+      try {
+          const registered = await SmsRetriever.startSmsRetriever();
+          if (registered) {
+              SmsRetriever.addSmsListener(this._onReceiveSms);
+          }
+      } catch (error) {}
+  };
+
+  // SMS Handlers
+  _onReceiveSms = (event) => {
+      let coordinate = smsHelper.parse(event.message);
+      ToastAndroid.show('New safe location found!', ToastAndroid.SHORT);
+
+      const { emergencyServices } = this.state;
+
+      emergencyServices.push({
+          latlng: {
+              latitude: coordinate.latitude,
+              longitude: coordinate.longitude
+          },
+          title: `Shelter-Found`,
+          description: "Hurricane shelter"
+      });
+
+      this.setState( {
+          emergencyServices,
+          region: {
+              latitude: coordinate.latitude,
+              longitude: coordinate.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421
+          }
+      });
+  };
 
   getUserLocation() {
     navigator.geolocation.getCurrentPosition( ( { coords } ) => {
