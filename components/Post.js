@@ -97,18 +97,17 @@ export default class Post extends Component<Props> {
     }
   }
 
-
   renderItem = ({item}) => {
     return(
     <View style={{borderColor: 'black', borderWidth:1}}>
       <View style={{flex:1, justifyContent: 'center'}}>
-        <Text>
+        <Text style={{fontSize: 20}}>
           Request needs: {item.needs.toString()}
         </Text>
-        <Text>
+        <Text style={{fontSize: 20}}>
           Urgency: {item.urgency}
         </Text>
-        <Text>
+        <Text style={{fontSize: 20}}>
           Coordinates: {item.coordinates.toString()}
         </Text>
       </View>
