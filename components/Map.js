@@ -9,7 +9,8 @@ import {
   ToastAndroid,
   Text,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  Alert
 } from "react-native";
 import MapView, { PROVIDER_DEFAULT, Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -195,7 +196,9 @@ class MapScreen extends Component {
         this.setState( {
           emergencyServices
         } );
-      } ).catch( error => console.log( error ) ); // to catch the errors if any
+      } ).catch( ( error ) => {
+        Alert.alert( `No internet connectivity: ${error}` );
+      } ); // to catch the errors if any
   }
 
   render() {
