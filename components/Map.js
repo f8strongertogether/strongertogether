@@ -8,7 +8,8 @@ import {
   PermissionsAndroid,
   ToastAndroid,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from "react-native";
 import MapView, { PROVIDER_DEFAULT, Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -20,6 +21,8 @@ const resources = <Icon name="home" size={24} color="red" />;
 const hospital = <Icon name="hospital-building" size={24} color="#800080" />;
 const location = <LocationIcon name="my-location" size={30} color="blue" />;
 const volunteer = <Icon name="human-greeting" size={24} color="green" />;
+
+const { height } = Dimensions.get( "window" );
 
 class MapScreen extends Component {
   constructor() {
@@ -261,7 +264,7 @@ class MapScreen extends Component {
           style={{
             position: "absolute",
             zIndex: 1,
-            top: 0,
+            top: height > 770 ? 40 : 0,
             left: 0,
             right: 0,
             backgroundColor: "#841584",
