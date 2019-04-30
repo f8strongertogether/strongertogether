@@ -2,46 +2,96 @@ import React, { Component } from "react";
 import { Alert, AppRegistry, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default class App extends Component<Props> {
-  constructor(props) {
-    super(props);
-    this.state = {text: ''};
+  state: {
+    highUrg: Boolean,
+    medUrg: Boolean,
+    lowUrg: Boolean,
+    nextPress: Boolean
+  };
+
+   _highPress(){
+    //Alert.alert('You tapped the button!');
+    if(this.state.highUrg)
+    {
+      this.setState({highUrg: false});
+    }
+    else{
+    this.setState({highUrg: true});
+    }
   }
 
-    onPress() {
-      Alert.alert('You tapped the button!')
+  _medPress(){
+    //Alert.alert('You tapped the button!');
+    if(this.state.medUrg)
+    {
+      this.setState({medUrg: false});
     }
+    else{
+    this.setState({medUrg: true});
+    }
+  }
+
+  _lowPress(){
+    //Alert.alert('You tapped the button!');
+    if(this.state.lowUrg)
+    {
+      this.setState({lowUrg: false});
+    }
+    else{
+    this.setState({lowUrg: true});
+    }
+  }
+
+  constructor(props){
+       super(props);
+        this.state = { highUrg: false };
+        this.state = { medUrg: false };
+        this.state = { lowUrg: false };
+        this.state = { nextPress: false };
+      this._highPress = this._highPress.bind(this);
+      this._medPress = this._medPress.bind(this);
+      this._lowPress = this._lowPress.bind(this);
+  }
 
   render() {
     return (
         <View style={styles.container}>
-            <Text style={styles.instructions}>What is your urgency??</Text>
+         
+          <View>
+            <Text style={styles.instructions}>What is your urgency?</Text>
+            </View>
+
+            <View style={{marginBottom: 30}}></View>
 
            <View style={styles.submit}>
                 <Button style={styles.submit}
-                    onPress={this.onPress}
-                    title="High(Life or death)"
+                    onPress={this._highPress} 
+                    title="High (Life or death)"
+                    color = {this.state.highUrg ? 'purple' : 'blue'}
                 />
             </View>
             
-                      <View style={styles.submit}>
-                <Button style={styles.submit}
-                    onPress={this.onPress}
-                    title="Medium(Need help within 4 hours)"
-                />
-            </View>
-                      <View style={styles.submit}>
-                <Button style={styles.submit}
-                    onPress={this.onPress}
-                    title="Low(Need help within 24 hours)"
-                />
-            </View>
-         
-            
-
             <View style={styles.submit}>
                 <Button style={styles.submit}
+                    onPress={this._medPress} 
+                    title="Medium (Need help within 4 hours)"
+                    color = {this.state.medUrg ? 'purple' : 'blue'}
+                />
+            </View>
+            
+            <View style={styles.submit}>
+                <Button style={styles.submit}
+                    onPress={this._lowPress} 
+                    title="Low (Need help within 24 hours)"
+                    color = {this.state.lowUrg ? 'purple' : 'blue'}
+                />
+            </View>
+            
+
+            <View style={styles.next}>
+                <Button style={styles.next}
                     onPress={this.onPress}
-                    title="Submit"
+                    title="Next"
                 />
             </View>
         </View>
@@ -54,29 +104,27 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create( {
   container: {
     flex: 1,
- justifyContent: "space-between",
-// alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    justifyContent: 'center',
+    alignItems: "center",
+    backgroundColor: 'white'
   },
   submit: {
-    flex: 1,
-    margin: 20,
-    flexDirection: 'column',
-    justifyContent: 'flex-end'
+    padding: 20,
+    width: 350,
+    //flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  next: {
+    padding: 20,
+    //flexDirection: 'column',
+    justifyContent: 'center'
   },
   instructions: {
-    fontSize: 50,
-    marginTop: 50,
-    marginBottom: 10,
-    textAlign: "center",
-    color: '#353535',
-    margin: 10
-
-  },
-  location: {
+    color: 'black',
+    fontWeight: 'bold',
     fontSize: 30,
-    textAlign: "center",
-    color: "#353535",
-    marginBottom: 1
+    justifyContent: 'center',
+    alignItems: 'center'
   }
+  
 } );
