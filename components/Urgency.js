@@ -3,50 +3,46 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 
 export default class Urgency extends Component<Props> {
   state: {
-    highUrg: Boolean,
-    medUrg: Boolean,
-    lowUrg: Boolean,
+    urgency: "",
     nextPress: Boolean
   };
 
    _highPress(){
     //Alert.alert('You tapped the button!');
-    if(this.state.highUrg)
+    if(this.state.urgency == "high")
     {
-      this.setState({highUrg: false});
+      this.setState({urgency: ""});
     }
     else{
-    this.setState({highUrg: true});
+    this.setState({urgency: "high"});
     }
   }
 
   _medPress(){
     //Alert.alert('You tapped the button!');
-    if(this.state.medUrg)
+    if(this.state.urgency == "medium")
     {
-      this.setState({medUrg: false});
+      this.setState({urgency: ""});
     }
     else{
-    this.setState({medUrg: true});
+    this.setState({urgency: "medium"});
     }
   }
 
   _lowPress(){
     //Alert.alert('You tapped the button!');
-    if(this.state.lowUrg)
+    if(this.state.urgency == "low")
     {
-      this.setState({lowUrg: false});
+      this.setState({urgency: ""});
     }
     else{
-    this.setState({lowUrg: true});
+    this.setState({urgency: "low"});
     }
   }
 
   constructor(props){
        super(props);
-        this.state = { highUrg: false };
-        this.state = { medUrg: false };
-        this.state = { lowUrg: false };
+        this.state = { urgency: "" };
         this.state = { nextPress: false };
       this._highPress = this._highPress.bind(this);
       this._medPress = this._medPress.bind(this);
@@ -69,7 +65,7 @@ export default class Urgency extends Component<Props> {
               <Button style={styles.submit}
                   onPress={this._highPress} 
                   title="High (Life or death)"
-                  color = {this.state.highUrg ? 'purple' : 'blue'}
+                  color = {this.state.urgency == "high" ? 'purple' : 'blue'}
               />
           </View>
           
@@ -77,7 +73,7 @@ export default class Urgency extends Component<Props> {
               <Button style={styles.submit}
                   onPress={this._medPress} 
                   title="Medium (Need help within 4 hours)"
-                  color = {this.state.medUrg ? 'purple' : 'blue'}
+                  color = {this.state.urgency == "medium" ? 'purple' : 'blue'}
               />
           </View>
           
@@ -85,14 +81,14 @@ export default class Urgency extends Component<Props> {
               <Button style={styles.submit}
                   onPress={this._lowPress} 
                   title="Low (Need help within 24 hours)"
-                  color = {this.state.lowUrg ? 'purple' : 'blue'}
+                  color = {this.state.urgency == "low" ? 'purple' : 'blue'}
               />
           </View>
           
 
           <View style={styles.next}>
               <Button style={styles.next}
-                  onPress={() => navigation.navigate( "Location" )}
+                  onPress={() => navigation.navigate( "Location" , {urgency: this.state.urgency})}
                   title="Next"
               />
           </View>

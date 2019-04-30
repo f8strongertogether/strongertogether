@@ -31,6 +31,7 @@ export default class Location extends Component {
           placeholder="Enter Location"
           onChangeText={text => this.setState( { text } )}
         />
+        
         <View style={styles.submit}>
           <Button
             style={styles.submit}
