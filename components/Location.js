@@ -2,17 +2,22 @@ import React, { Component } from "react";
 import { Alert, AppRegistry, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default class App extends Component<Props> {
-  constructor(props) {
+  constructor({ navigation }) {
     super(props);
     this.state = {text: ''};
   }
 
     onPress() {
-      Alert.alert('You tapped the button!')
+      const { navigation } = this.props;
+      Alert.alert('Your request has been submitted.')
+      navigation.navigate( "See Posts" )
     }
 
   render() {
+
     return (
+
+
         <View style={styles.container}>
             <Text style={styles.instructions}>Where are you located?</Text>
 
