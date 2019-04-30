@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Platform,
   StyleSheet
 } from "react-native";
 import RootStack from "./components/Navigation";
