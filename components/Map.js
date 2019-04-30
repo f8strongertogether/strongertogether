@@ -10,8 +10,11 @@ import {
 } from "react-native";
 import MapView, { PROVIDER_DEFAULT, Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import LocationIcon from "react-native-vector-icons/MaterialIcons";
 
 const resources = <Icon name="home" size={24} color="#800080" />;
+const hospital = <Icon name="hospital-building" size={24} color="#800080" />;
+const location = <LocationIcon name="my-location" size={30} color="blue" />;
 
 class MapScreen extends Component {
   constructor() {
@@ -19,19 +22,12 @@ class MapScreen extends Component {
 
     this.state = {
       region: {},
-      markers: [{
-        latlng: {
-          latitude: 37.3230,
-          longitude: -122.0322
-        },
-        title: "Fake map point",
-        description: "speaks for itself"
-      }]
+      shelters: [],
+      emergencyServices: []
     };
   }
 
   componentWillMount() {
-    this.fetchNewYorkHurricaneData();
     if ( Platform.OS === "android" ) {
       this.requestAndroidPermissions();
     } else {
@@ -39,33 +35,9 @@ class MapScreen extends Component {
     }
   }
 
-  fetchNewYorkHurricaneData() {
-    fetch( "https://data.cityofnewyork.us/resource/addd-ji6a.json" )
-      .then( response => response.json() )
-      .then( ( responseJson ) => {
-        const markers = [];
-        let count = 0;
-
-        responseJson.forEach( ( shelter ) => {
-          const { the_geom } = shelter;
-          const { coordinates } = the_geom;
-          markers.push( {
-            latlng: {
-              latitude: coordinates[1],
-              longitude: coordinates[0]
-            },
-            title: `Shelter-${count}`,
-            description: "Hurricane shelter"
-          } );
-          count += 1;
-        } );
-
-        this.setState( {
-          markers
-        } );
-
-        console.log( markers.length );
-      } ).catch( error => console.log( error ) ) // to catch the errors if any
+  componentDidMount() {
+    this.fetchNewYorkHurricaneData();
+    this.fetchUSAEmergencyServices();
   }
 
   getUserLocation() {
@@ -74,8 +46,8 @@ class MapScreen extends Component {
 
       this.setState( {
         region: {
-          latitude: 40.7128,
-          longitude: -74.0060,
+          latitude,
+          longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }
@@ -98,10 +70,66 @@ class MapScreen extends Component {
     }
   }
 
-  render() {
-    const { markers, region } = this.state;
+  fetchNewYorkHurricaneData() {
+    fetch( "https://data.cityofnewyork.us/resource/addd-ji6a.json" )
+      .then( response => response.json() )
+      .then( ( responseJson ) => {
+        const shelters = [];
+        let count = 0;
 
-    // console.log( markers, "markers" );
+        responseJson.forEach( ( shelter ) => {
+          const { the_geom } = shelter;
+          const { coordinates } = the_geom;
+          shelters.push( {
+            latlng: {
+              latitude: coordinates[1],
+              longitude: coordinates[0]
+            },
+            title: `Shelter-${count}`,
+            description: "Hurricane shelter"
+          } );
+          count += 1;
+        } );
+
+        this.setState( {
+          shelters
+        } );
+      } ).catch( error => console.log( error ) ); // to catch the errors if any
+  }
+
+  fetchUSAEmergencyServices() {
+    fetch( "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/EMS_Stations/FeatureServer/0/query?where=1%3D1&outFields=LONGITUDE,LATITUDE&outSR=4326&f=json" )
+      .then( response => response.json() )
+      .then( ( { features } ) => {
+        const emergencyServices = [];
+
+        let count = 0;
+
+        features.forEach( ( service ) => {
+          console.log( service );
+          const { attributes } = service;
+
+          emergencyServices.push( {
+            latlng: {
+              latitude: attributes.LATITUDE,
+              longitude: attributes.LONGITUDE
+            },
+            title: `Emergency-${count}`,
+            description: "Emergency services"
+          } );
+          count += 1;
+        } );
+
+        this.setState( {
+          emergencyServices
+        } );
+
+        console.log( emergencyServices );
+      } ).catch( error => console.log( error ) ); // to catch the errors if any
+  }
+
+  render() {
+    const { shelters, emergencyServices, region } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
@@ -112,7 +140,7 @@ class MapScreen extends Component {
             region={region}
             // onRegionChangeComplete={region => console.log( region )}
           >
-            {markers.map( marker => (
+            {shelters.map( marker => (
               <Marker
                 coordinate={marker.latlng}
                 title={marker.title}
@@ -124,8 +152,23 @@ class MapScreen extends Component {
                 </Callout>
               </Marker>
             ) )}
+            {emergencyServices.map( marker => (
+              <Marker
+                coordinate={marker.latlng}
+                title={marker.title}
+                description={marker.description}
+                key={marker.title.toString()}
+              >
+                <Callout>
+                  <Text>{hospital}</Text>
+                </Callout>
+              </Marker>
+            ) )}
           </MapView>
         ) : null}
+        <View pointerEvents="none" style={styles.markerFixed}>
+          {location}
+        </View>
       </View>
     );
   }
