@@ -2,6 +2,92 @@ import React, {Component} from "react";
 import {StyleSheet, View, Text, TouchableOpacity, Button, FlatList} from "react-native";
 
 type Props = {};
+var post_items = [
+  {
+    "_id": "5cc7a268b40c917a2e186f84",
+    "needs": [
+      "other",
+      "water"
+    ],
+    "urgency": "high",
+    "coordinates": [
+      39.088979,
+      -73.213427
+    ]
+  },
+  {
+    "_id": "5cc7a268c9ff636b1614c315",
+    "needs": [
+      "food",
+      "evacuation"
+    ],
+    "urgency": "medium",
+    "coordinates": [
+      39.26255,
+      -73.239273
+    ]
+  },
+  {
+    "_id": "5cc7a268ecb7f55f5c5b66cf",
+    "needs": [
+      "clothing",
+      "medicine"
+    ],
+    "urgency": "high",
+    "coordinates": [
+      40.669252,
+      -73.791024
+    ]
+  },
+  {
+    "_id": "5cc7a26889add1aa908b5f99",
+    "needs": [
+      "medicine",
+      "water"
+    ],
+    "urgency": "high",
+    "coordinates": [
+      39.789623,
+      -73.04364
+    ]
+  },
+  {
+    "_id": "5cc7a268cf1a83088fdab152",
+    "needs": [
+      "food",
+      "clothing"
+    ],
+    "urgency": "medium",
+    "coordinates": [
+      40.541229,
+      -73.920123
+    ]
+  },
+  {
+    "_id": "5cc7a2685b362b2170dd06ad",
+    "needs": [
+      "water",
+      "clothing"
+    ],
+    "urgency": "low",
+    "coordinates": [
+      39.591245,
+      -73.833515
+    ]
+  },
+  {
+    "_id": "5cc7a26899ccfea0faeb5985",
+    "needs": [
+      "water",
+      "other"
+    ],
+    "urgency": "high",
+    "coordinates": [
+      40.621593,
+      -73.601694
+    ]
+  }
+];
 
 export default class Post extends Component<Props> {
   constructor(){
@@ -10,64 +96,48 @@ export default class Post extends Component<Props> {
       dataSource: []
     }
   }
+
+
   renderItem = ({item}) => {
     return(
     <View style={{borderColor: 'black', borderWidth:1}}>
       <View style={{flex:1, justifyContent: 'center'}}>
         <Text>
-          Request needs: {item.needs}
+          Request needs: {item.needs.toString()}
         </Text>
         <Text>
           Urgency: {item.urgency}
         </Text>
         <Text>
-          Coordinates: {item.coordinates}
+          Coordinates: {item.coordinates.toString()}
         </Text>
       </View>
     </View>
     )
   }
-  componentDidMount(){
-    const url = 'http://www.json-generator.com/api/json/get/bUrZFnjiqa?indent=2'
-    fetch(url)
-    .then((response) => response.json())
+  // componentDidMount(){
+  //   const url = 'http://www.json-generator.com/api/json/get/bUrZFnjiqa?indent=2'
+  //   fetch(url)
+  //   .then((response) => response.json())
 
-    .then((responseJson) => {
-        this.setState({
-          dataSource: responseJson.post_list
-        })
-    })
-    .catch((error) => {
-      alert("error")
-    })
-  }
+  //   .then((responseJson) => {
+  //       this.setState({
+  //         dataSource: responseJson.post_list
+  //       })
+  //   })
+  //   .catch((error) => {
+  //     alert("error")
+  //   })
+  // }
+
   onPress(){
 
   }
+
   render() {
     return (
       <View>
           <View style={styles.container}>
-            {/* <Button style={flex=1}
-              onPress={this.onPress}
-              title="Water"
-              color="#841584"
-            />
-            <Button style={flex=1}
-              onPress={this.onPress}
-              title="Clothings"
-              color="#DDDDDD"
-            />
-            <Button style={flex=1}
-              onPress={this.onPress}
-              title="Evacuation"
-              color="blue"
-            />
-            <Button style={flex=1}
-              onPress={this.onPress}
-              title="Medicine"
-              color="green"
-            /> */}
             <TouchableOpacity
               style={styles.btn1}
               onPress={this.onPress}>
@@ -91,16 +161,22 @@ export default class Post extends Component<Props> {
             <TouchableOpacity
               style={styles.btn5}
               onPress={this.onPress}>
+              <Text style={styles.btn_text}>Food</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btn6}
+              onPress={this.onPress}>
               <Text style={styles.btn_text}>Other</Text>
             </TouchableOpacity>
           </View>
 
-
             <FlatList 
-              data={this.state.dataSource}
+              data={post_items}
               renderItem={this.renderItem}
               keyExtractor={(item => item._id.toString())}
-            />  
+            />      
+          
+ 
         </View>
     )
   }
@@ -146,10 +222,10 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       backgroundColor: '#6DB0B3',
       padding: 15
-    }
-
-
-      
-
-
+    },
+    btn6:{
+      alignItems: 'center',
+      backgroundColor: '#DDDDDD',
+      padding: 15
+    },
 });
