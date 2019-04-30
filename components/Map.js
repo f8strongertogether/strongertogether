@@ -52,7 +52,7 @@ class MapScreen extends Component {
           longitudeDelta: 0.0421
         }
       } );
-    });
+    } );
   }
 
   requestAndroidPermissions = async () => {
