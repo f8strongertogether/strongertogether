@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import {StyleSheet, View, Text, TouchableOpacity, Button, FlatList} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Button, FlatList, ScrollView} from "react-native";
 
 type Props = {};
+
 var post_items = [
   {
     "_id": "5cc7a268b40c917a2e186f84",
@@ -93,9 +94,10 @@ export default class Post extends Component<Props> {
   constructor(){
     super()
     this.state = {
-      dataSource: []
-    }
+      search: ''
+    };
   }
+
 
   renderItem = ({item}) => {
     return(
@@ -130,41 +132,57 @@ export default class Post extends Component<Props> {
   // }
 
   onPress(){
+    //const filtered = post_items.flatMap(post => post.needs).filter(item => !item.indexOf('wat'));
+    const filtered = post_items.filter(post => post.needs.filter(need => need.indexOf("wat").length !== 0));
+    alert(   JSON.stringify(filtered));
+ 
 
   }
 
   render() {
+    
     return (
-      <View>
+      <ScrollView>  
+      {/*  <View> */}
           <View style={styles.container}>
             <TouchableOpacity
               style={styles.btn1}
               onPress={this.onPress}>
               <Text style={styles.btn_text}>Water</Text>
             </TouchableOpacity>
+            
             <TouchableOpacity
               style={styles.btn2}
-              onPress={this.onPress}>
+              // onPress={this.onPress}
+            >
               <Text style={styles.btn_text}>Clothings</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.btn3}
-              onPress={this.onPress}>
+              // onPress={this.onPress}
+              >
               <Text style={styles.btn_text}>Evacuation</Text>
             </TouchableOpacity>
+            
             <TouchableOpacity
               style={styles.btn4}
-              onPress={this.onPress}>
+              // onPress={this.onPress}
+              >
               <Text style={styles.btn_text}>Medicine</Text>
             </TouchableOpacity>
+            
             <TouchableOpacity
               style={styles.btn5}
-              onPress={this.onPress}>
+              // onPress={this.onPress}
+              >
               <Text style={styles.btn_text}>Food</Text>
             </TouchableOpacity>
+            
             <TouchableOpacity
               style={styles.btn6}
-              onPress={this.onPress}>
+              // onPress={this.onPress}
+              >
               <Text style={styles.btn_text}>Other</Text>
             </TouchableOpacity>
           </View>
@@ -173,10 +191,9 @@ export default class Post extends Component<Props> {
               data={post_items}
               renderItem={this.renderItem}
               keyExtractor={(item => item._id.toString())}
-            />      
-          
- 
-        </View>
+            />    
+
+          </ScrollView>  
     )
   }
 }
