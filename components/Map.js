@@ -58,6 +58,10 @@ class MapScreen extends Component {
     } );
   }
 
+  onRegionChange( newRegion ) {
+    this.setState( { region: newRegion } );
+  }
+
   // SMS Handlers
   _onReceiveSms = ( event ) => {
     const coordinate = smsHelper.parse( event.message );
@@ -206,6 +210,7 @@ class MapScreen extends Component {
             provider={PROVIDER_DEFAULT}
             style={styles.map}
             region={region}
+            nRegionChangeComplete={region => this.onRegionChange( region )}
           >
             {shelters.map( marker => (
               <Marker
