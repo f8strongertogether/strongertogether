@@ -9,15 +9,26 @@ import FormIcon from "react-native-vector-icons/AntDesign";
 
 import MapScreen from "./Map";
 import LocationScreen from "./Location";
+import Survey from "./Survey";
+import Urgency from "./Urgency";
 import PostScreen from "./Post";
-import SurveyScreen from "./Survey";
+
+const noHeader = {
+  header: null
+};
 
 const SurveyStack = createStackNavigator( {
   Survey: {
-    screen: SurveyScreen
+    screen: Survey,
+    navigationOptions: () => noHeader
+  },
+  Urgency: {
+    screen: Urgency,
+    navigationOptions: () => noHeader
   },
   Location: {
-    screen: LocationScreen
+    screen: LocationScreen,
+    navigationOptions: () => noHeader
   }
 } );
 
@@ -34,9 +45,10 @@ const tabNav = createMaterialBottomTabNavigator( {
       )
     } )
   },
-  "Request Help": {
+  Survey: {
     screen: SurveyStack,
     navigationOptions: () => ( {
+      title: "Request Help",
       tabBarIcon: ( { tintColor } ) => (
         <FormIcon
           name="form"
@@ -46,9 +58,10 @@ const tabNav = createMaterialBottomTabNavigator( {
       )
     } )
   },
-  "See Posts": {
+  Post: {
     screen: PostScreen,
     navigationOptions: () => ( {
+      title: "See Posts",
       tabBarIcon: ( { tintColor } ) => (
         <Icon
           name="message-text"

@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import LocationIcon from "react-native-vector-icons/MaterialIcons";
 import SmsRetriever from "react-native-sms-retriever";
 import smsHelper from "../SmsHelper";
+import VolunteerButton from "./Volunteer";
 
 const resources = <Icon name="home" size={24} color="#800080" />;
 const hospital = <Icon name="hospital-building" size={24} color="#800080" />;
@@ -29,57 +30,19 @@ class MapScreen extends Component {
       shelters: [],
       emergencyServices: []
     };
+
+    this.createVolunteer = this.createVolunteer.bind( this );
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if ( Platform.OS === "android" ) {
       this.requestAndroidPermissions();
       this.registerSmsListener();
     } else {
       this.getUserLocation();
     }
-  }
-
-  componentDidMount() {
     this.fetchNewYorkHurricaneData();
-
   }
-
-  registerSmsListener = async () => {
-      try {
-          const registered = await SmsRetriever.startSmsRetriever();
-          if (registered) {
-              SmsRetriever.addSmsListener(this._onReceiveSms);
-          }
-      } catch (error) {}
-  };
-
-  // SMS Handlers
-  _onReceiveSms = (event) => {
-      let coordinate = smsHelper.parse(event.message);
-      ToastAndroid.show('New safe location found!', ToastAndroid.SHORT);
-
-      const { emergencyServices } = this.state;
-
-      emergencyServices.push({
-          latlng: {
-              latitude: coordinate.latitude,
-              longitude: coordinate.longitude
-          },
-          title: `Shelter-Found`,
-          description: "Hurricane shelter"
-      });
-
-      this.setState( {
-          emergencyServices,
-          region: {
-              latitude: coordinate.latitude,
-              longitude: coordinate.longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421
-          }
-      });
-  };
 
   getUserLocation() {
     navigator.geolocation.getCurrentPosition( ( { coords } ) => {
@@ -96,6 +59,42 @@ class MapScreen extends Component {
     } );
   }
 
+  // SMS Handlers
+  _onReceiveSms = ( event ) => {
+    const coordinate = smsHelper.parse( event.message );
+    ToastAndroid.show( "New safe location found!", ToastAndroid.SHORT );
+
+    const { emergencyServices } = this.state;
+
+    emergencyServices.push( {
+      latlng: {
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude
+      },
+      title: "Shelter-Found",
+      description: "Hurricane shelter"
+    } );
+
+    this.setState( {
+      emergencyServices,
+      region: {
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }
+    } );
+  };
+
+  registerSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if ( registered ) {
+        SmsRetriever.addSmsListener( this._onReceiveSms );
+      }
+    } catch ( error ) {}
+  };
+
   requestAndroidPermissions = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -109,6 +108,21 @@ class MapScreen extends Component {
     } catch ( err ) {
       this.setState( { error: "location" } );
     }
+  }
+
+  createNewMarker( coordinate ) {
+    const { emergencyServices } = this.state;
+
+    emergencyServices.push( {
+      latlng: {
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude
+      },
+      title: "Shelter-Found",
+      description: "Hurricane shelter"
+    } );
+
+    this.setState( { emergencyServices } );
   }
 
   fetchNewYorkHurricaneData() {
@@ -178,11 +192,20 @@ class MapScreen extends Component {
       } ).catch( error => console.log( error ) ); // to catch the errors if any
   }
 
+  createVolunteer() {
+    const { region } = this.state;
+    this.createNewMarker( {
+      latitude: region.latitude,
+      longitude: region.longitude
+    } );
+  }
+
   render() {
     const { shelters, emergencyServices, region } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
+        <VolunteerButton createVolunteer={this.createVolunteer} />
         {region.latitude ? (
           <MapView
             provider={PROVIDER_DEFAULT}
