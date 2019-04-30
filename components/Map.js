@@ -37,7 +37,7 @@ class MapScreen extends Component {
 
   componentDidMount() {
     this.fetchNewYorkHurricaneData();
-    this.fetchUSAEmergencyServices();
+
   }
 
   getUserLocation() {
@@ -51,7 +51,7 @@ class MapScreen extends Component {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }
-      } );
+      }, () => this.fetchUSAEmergencyServices() );
     } );
   }
 
@@ -98,6 +98,13 @@ class MapScreen extends Component {
   }
 
   fetchUSAEmergencyServices() {
+    const { region } = this.state;
+    const { latitude, longitude } = region;
+    const upperLat = latitude + 1;
+    const lowerLat = latitude - 1;
+    const upperLong = longitude + 1;
+    const lowerLong = longitude - 1;
+
     fetch( "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/EMS_Stations/FeatureServer/0/query?where=1%3D1&outFields=LONGITUDE,LATITUDE&outSR=4326&f=json" )
       .then( response => response.json() )
       .then( ( { features } ) => {
@@ -105,8 +112,12 @@ class MapScreen extends Component {
 
         let count = 0;
 
-        features.forEach( ( service ) => {
-          console.log( service );
+        const filtered = features.filter( point => (
+          ( point.attributes.LATITUDE <= upperLat && point.attributes.LATITUDE >= lowerLat )
+          && ( point.attributes.LONGITUDE <= upperLong && point.attributes.LONGITUDE >= lowerLong )
+        ) );
+
+        filtered.forEach( ( service ) => {
           const { attributes } = service;
 
           emergencyServices.push( {
@@ -123,8 +134,6 @@ class MapScreen extends Component {
         this.setState( {
           emergencyServices
         } );
-
-        console.log( emergencyServices );
       } ).catch( error => console.log( error ) ); // to catch the errors if any
   }
 
@@ -138,7 +147,6 @@ class MapScreen extends Component {
             provider={PROVIDER_DEFAULT}
             style={styles.map}
             region={region}
-            // onRegionChangeComplete={region => console.log( region )}
           >
             {shelters.map( marker => (
               <Marker
