@@ -92,7 +92,7 @@ export default class Urgency extends Component<Props> {
 
           <View style={styles.next}>
               <Button style={styles.next}
-                  onPress={navigation.navigate( "Location" )}
+                  onPress={() => navigation.navigate( "Location" )}
                   title="Next"
               />
           </View>
