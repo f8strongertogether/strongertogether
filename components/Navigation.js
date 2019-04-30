@@ -6,7 +6,6 @@ import {
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FormIcon from "react-native-vector-icons/AntDesign";
-
 import MapScreen from "./Map";
 import LocationScreen from "./Location";
 import PostScreen from "./Post";
@@ -17,7 +16,10 @@ const SurveyStack = createStackNavigator( {
     screen: SurveyScreen
   },
   Location: {
-    screen: LocationScreen
+    screen: LocationScreen,
+    navigationOptions: ( { navigation } ) => ( {
+      header: null
+    } )
   }
 } );
 
